@@ -13,12 +13,6 @@ public class LoggingFilter implements ClientRequestFilter{
  
 	@Override
 	public void filter(ClientRequestContext requestContext) throws IOException {
-		System.out.println("=====");
-		System.out.println(requestContext.getUri());
-		ObjectMapper om = new ObjectMapper();
-		System.out.println(om.writeValueAsString(requestContext.getEntity()));
-		System.out.println(requestContext.getStringHeaders());		
-		System.out.println("====="); 
 	} 
 
 }
