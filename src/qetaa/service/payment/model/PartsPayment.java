@@ -204,6 +204,22 @@ public class PartsPayment implements Serializable {
 		this.bankConfirmedBy = bankConfirmedBy;
 	}
 
+	public char getWalletType() {
+		return walletType;
+	}
+
+	public void setWalletType(char walletType) {
+		this.walletType = walletType;
+	}
+
+	public char getWalletStatus() {
+		return walletStatus;
+	}
+
+	public void setWalletStatus(char walletStatus) {
+		this.walletStatus = walletStatus;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
