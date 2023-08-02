@@ -26,9 +26,16 @@ public final class AppConstants {
 	
 	public final static String POST_LOYALTY_POINTS = CUSTOMER_SERVICE + "loyalty-points/cart";
 	public final static String PUT_CONFIRM_WIRE_TRANSFER = CART_SERVICE + "wire-transfer/confirm";
+	public final static String PUT_REFUND_CART = CART_SERVICE + "refund-cart";
+	
+	public static final String SEND_SMS_TO_CUSTOMER = CUSTOMER_SERVICE + "send-sms-to-customer";
 	
 	public final static String getCompletedCarts(long cartId) {
 		return CART_SERVICE + "completed-cart/cart/" + cartId;
+	}
+	
+	public final static String getCourier(int id) {
+		return VENDOR_SERVICE + "courier/" +id;
 	}
 
 }

@@ -5,7 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -65,6 +67,46 @@ public class Helper {
 				+"token_name="+map.get("token_name").toString()
 				+AppConstants.PAYFORT_SHA_PHRASE_RESPONSE;
 		return cypher(phrase).equals(signature);
+	}
+	
+	public static Date getFromDate(int month, int year) {
+		Date from = new Date();
+		if (month == 12) {
+			Calendar cFrom = new GregorianCalendar();
+			cFrom.set(year, 0, 1, 0, 0, 0);
+			cFrom.set(Calendar.MILLISECOND, 0);
+			from.setTime(cFrom.getTimeInMillis());
+		} else {
+			Calendar cFrom = new GregorianCalendar();
+			cFrom.set(year, month, 1, 0, 0, 0);
+			cFrom.set(Calendar.MILLISECOND, 0);
+			from.setTime(cFrom.getTimeInMillis());
+		}
+		return from;
+	}
+	
+	public static Date getToDate(int month, int year) {
+		Date to = new Date();
+		if (month == 12) {
+			Calendar cTo = new GregorianCalendar();
+			cTo.set(year, 11, 31, 0, 0, 0);
+			cTo.set(Calendar.HOUR_OF_DAY, 23);
+			cTo.set(Calendar.MINUTE, 59);
+			cTo.set(Calendar.SECOND, 59);
+			cTo.set(Calendar.MILLISECOND, cTo.getActualMaximum(Calendar.MILLISECOND));
+			to.setTime(cTo.getTimeInMillis());
+		} else {
+			Calendar cTo = new GregorianCalendar();
+			cTo.set(year, month, 1, 0, 0, 0);
+			cTo.set(Calendar.MILLISECOND, 0);
+			cTo.set(Calendar.DAY_OF_MONTH, cTo.getActualMaximum(Calendar.DAY_OF_MONTH));
+			cTo.set(Calendar.HOUR_OF_DAY, 23);
+			cTo.set(Calendar.MINUTE, 59);
+			cTo.set(Calendar.SECOND, 59);
+			cTo.set(Calendar.MILLISECOND, cTo.getActualMaximum(Calendar.MILLISECOND));
+			to.setTime(cTo.getTimeInMillis());
+		}
+		return to;
 	}
 	
 	public static Integer paymentIntegerFormat(double am){

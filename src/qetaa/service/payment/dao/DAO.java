@@ -56,6 +56,22 @@ public class DAO {
 		}
 		return (List<T>) q.getResultList();
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public <T> T findJPQLParams(Class<T> klass, String jpql, Object ... vals){
+		try {
+		Query q = em.createQuery(jpql);
+		int i = 0;
+		for(Object o : vals){
+			this.setParameter(q, "value"+i, o);
+			i++;
+		}
+		return (T) q.getSingleResult();
+		}catch(NoResultException ex) {
+			return null;
+		}
+	}
 
 	public Object getNativeSingle(String sql) {
 		Object o;
@@ -282,7 +298,7 @@ public class DAO {
 			Date d = (Date) val;
 			Calendar c = Calendar.getInstance();
 			c.setTime(d);
-			q.setParameter(name, c, TemporalType.TIMESTAMP);
+			q.setParameter(name, c.getTime(), TemporalType.TIMESTAMP);
 		}
 	}
 
@@ -292,7 +308,7 @@ public class DAO {
 			q.setParameter(name, d, TemporalType.TIMESTAMP);
 		} else if (val instanceof Calendar) {
 			Calendar c = (Calendar) val;
-			q.setParameter(name, c, TemporalType.TIMESTAMP);
+			q.setParameter(name, c.getTime(), TemporalType.TIMESTAMP);
 		} else {
 			q.setParameter(name, val);
 		}

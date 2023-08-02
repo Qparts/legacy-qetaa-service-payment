@@ -2,6 +2,7 @@ package qetaa.service.payment.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="pay_wallet")
@@ -27,7 +29,7 @@ public class Wallet implements Serializable{
 	private long id;
 	
 	@Column(name="wallet_type")
-	private char walletType;//Payment , Refund
+	private char walletType;//P=Payment , R= Refund, S=Sales Return
 	
 	@Column(name = "customer_id")
 	private long customerId;
@@ -39,7 +41,7 @@ public class Wallet implements Serializable{
 	private long cartId;
 		
 	@Column(name = "status")
-	private char status;//A = Awaiting sales, S = Sales Made 	
+	private char status;//A = Awaiting sales, S = Sales Made, R = Refunded, H = Shipped
 	
 	@Column(name = "created")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,12 +58,10 @@ public class Wallet implements Serializable{
 	
 	@Column(name = "payment_type")
 	private String paymentType;// creditcard, sadad, wire transfer
-
-	@Column(name = "amount")
-	private double amount;//not in halalas
 	
 	@Column(name = "cc_company")
 	private String ccCompany;// visa, mastercard
+
 	@JoinColumn(name = "bank_id")
 	@ManyToOne
 	private Bank bank;
@@ -71,6 +71,36 @@ public class Wallet implements Serializable{
 	
 	@Column(name = "credit_fees")
 	private Double creditFees;//credit fees
+	
+	@Column(name="discount_percentage")
+	private Double discountPercentage;
+
+	@Transient
+	private List<WalletItem> walletItems;
+	
+	@Transient
+	private List<WalletQuotation> walletQuotations;
+	
+	
+	
+	
+	
+
+	public List<WalletQuotation> getWalletQuotations() {
+		return walletQuotations;
+	}
+
+	public void setWalletQuotations(List<WalletQuotation> walletQuotations) {
+		this.walletQuotations = walletQuotations;
+	}
+
+	public List<WalletItem> getWalletItems() {
+		return walletItems;
+	}
+
+	public void setWalletItems(List<WalletItem> walletItems) {
+		this.walletItems = walletItems;
+	}
 
 	public long getId() {
 		return id;
@@ -160,12 +190,12 @@ public class Wallet implements Serializable{
 		this.paymentType = paymentType;
 	}
 
-	public double getAmount() {
-		return amount;
+	public Double getDiscountPercentage() {
+		return discountPercentage;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setDiscountPercentage(Double discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public String getCcCompany() {
